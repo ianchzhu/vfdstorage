@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List of IP Addresses</title>
+</head>
+<body>
+	<h1>List of IP Addresses</h1>
+	<p>Your IP address is: <?php echo $_SERVER['REMOTE_ADDR']; ?></p>
+	<p>List of IP Addresses:</p>
+	<ol>
+		<?php
+			foreach(glob('logs/*.log') as $file) {
+				$lines = file($file);
+				$ip = rtrim($lines[0]);
+				echo "<li>$ip</li>";
+			}
+		?>
+	</ol>
+	<?php
+		$ip_address = $_SERVER['REMOTE_ADDR'] . "\n";
+		$log_file = 'logs/' . date('Y-m-d') . '.log';
+		file_put_contents($log_file, $ip_address, FILE_APPEND);
+	?>
+</body>
+</html>

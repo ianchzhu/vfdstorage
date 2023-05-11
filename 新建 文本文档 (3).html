@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>IP Probe</title>
+  </head>
+  <body>
+    <h1>IP Probe</h1>
+    <p>Please enter an IP address to probe</p>
+    <form>
+      <input type="text" name="ipAddress">
+      <input type="submit" value="Probe">
+    </form>
+    <?php
+      if(isset($_GET['ipAddress'])) {
+        $ip = $_GET['ipAddress'];
+        echo '<p>Probing IP address: '.$ip.'</p>';
+        echo '<p>Results:</p>';
+        echo '<ul>';
+        echo '<li>Ping: '.shell_exec('ping -c 4 '.$ip).'</li>';
+        echo '<li>Traceroute: '.shell_exec('traceroute -m 15 '.$ip).'</li>';
+        echo '<li>GeoIP Location: '.shell_exec('geoiplookup '.$ip).'</li>';
+        echo '</ul>';
+      }
+    ?>
+  </body>
+</html>
