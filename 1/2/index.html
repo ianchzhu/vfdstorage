@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>IP Address Tracker</title>
+</head>
+<body>
+    <h1>IP Address Tracker</h1>
+
+    <form id="name-form">
+        <p>Please enter your name:</p>
+        <input type="text" id="name-input" name="name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        var nameForm = document.getElementById("name-form");
+        nameForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            var nameInput = document.getElementById("name-input").value;
+
+            // Use AJAX to call the PHP script and send the name and IP address
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log("Data logged successfully");
+                }
+            };
+            xhr.open("POST", "log.php");
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("name=" + nameInput);
+        });
+
+        // Fetch the IP address using JavaScript
+        var ipAddress;
+        fetch("https://api.ipify.org?format=json")
+            .then(response => response.json())
+            .then(data => ipAddress = data.ip)
+            .catch(err => console.log(err));
+
+        // Define the PHP script that logs the IP address and name secretly
+        var logScriptUrl = "log.php";
+    </script>
+</body>
+</html>
